@@ -1,0 +1,22 @@
+Installing with `pecl` command-line utility
+
+	1. Install OpenCV libraries (at least version 1.0.0)
+	2. Execute command "pecl install facedetect"
+	3. Make sure you have extension=facedetect.so in your php.ini
+
+
+Installing from sources
+
+	1. Install OpenCV libraries (at least version 1.0.0)
+	2. Unpack facedetect source package
+	3. Go to facedetect folder and type "phpize && ./configure && make && make install"
+	4. Make sure you have extension=facedetect.so in your php.ini
+
+
+Compiling Facedetect into PHP
+
+	1. Install OpenCV libraries (at least version 1.0.0)
+	2. Unpack facedetect source package to $PHP_SOURCE_DIR/ext/facedetect
+	3. In php source root directory run commands: "rm configure && ./buildconf --force"
+	4. Configure PHP with command "./configure --with-facedetect"
+	5. Run make && make install
