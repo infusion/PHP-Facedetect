@@ -1,7 +1,7 @@
 PHP_ARG_WITH(facedetect, for facedetect support, [  --with-facedetect     Enable facedetect support])
 
 if test "$PHP_FACEDETECT" != "no"; then
-  SEARCH_PATH="/usr/local /usr"
+  SEARCH_PATH="/usr/local /usr /opt/local"
   SEARCH_FOR="/include/opencv/cv.h"
 
   if test -r $PHP_FACEDETECT/$SEARCH_FOR; then
@@ -25,15 +25,11 @@ if test "$PHP_FACEDETECT" != "no"; then
   PHP_ADD_INCLUDE($FACEDETECT_DIR/include)
 
   AC_CHECK_HEADER([$FACEDETECT_DIR/include/opencv/cv.h], [], AC_MSG_ERROR('opencv/cv.h' header not found))
-  AC_CHECK_HEADER([$FACEDETECT_DIR/include/opencv/cvver.h], [], AC_MSG_ERROR('opencv/cvver.h' header not found))
   AC_CHECK_HEADER([$FACEDETECT_DIR/include/opencv/highgui.h], [], AC_MSG_ERROR('opencv/highgui.h' header not found))
 
-  PHP_CHECK_LIBRARY(cv, cvLoad,
+  PHP_CHECK_LIBRARY(opencv_objdetect, cvLoad,
   [
-    PHP_ADD_LIBRARY_WITH_PATH(cv, $FACEDETECT_DIR/lib, FACEDETECT_SHARED_LIBADD)
-    PHP_ADD_LIBRARY_WITH_PATH(cvaux, $FACEDETECT_DIR/lib, FACEDETECT_SHARED_LIBADD)
-    PHP_ADD_LIBRARY_WITH_PATH(highgui, $FACEDETECT_DIR/lib, FACEDETECT_SHARED_LIBADD)
-    PHP_ADD_LIBRARY_WITH_PATH(cxcore, $FACEDETECT_DIR/lib, FACEDETECT_SHARED_LIBADD)
+    PHP_ADD_LIBRARY_WITH_PATH(opencv_objdetect, $FACEDETECT_DIR/lib, FACEDETECT_SHARED_LIBADD)
     AC_DEFINE(HAVE_FACEDETECT, 1, [ ])
   ],[
     AC_MSG_ERROR([wrong OpenCV version or OpenCV not found])

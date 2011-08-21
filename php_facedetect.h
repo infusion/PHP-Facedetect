@@ -17,7 +17,7 @@
 #ifndef PHP_FACEDETECT_H
 #define PHP_FACEDETECT_H
 
-#define PHP_FACEDETECT_VERSION "1.0.1"
+#define PHP_FACEDETECT_VERSION "1.1"
 #define PHP_FACEDETECT_EXTNAME "facedetect"
 
 #ifdef ZTS

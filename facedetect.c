@@ -13,7 +13,10 @@
   | Author: Robert Eisele <robert@xarg.org>                              |
   +----------------------------------------------------------------------+
 */
-
+//	http://www.santyago.pl/files/facedetect-1.0.1-opencv-2.2.0.patch
+//	- face recog lib embedden http://libface.sourceforge.net/file/Examples.html
+//	- http://www.cognotics.com/opencv/servo_2007_series/part_5/index.html
+//	- opencv 2.2 kompatibel
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -21,7 +24,6 @@
 #include "php_facedetect.h"
 
 #include <opencv/cv.h>
-#include <opencv/cvver.h>
 #include <opencv/highgui.h>
 
 /* {{{ facedetect_functions[]
@@ -104,7 +106,7 @@ static void php_facedetect(INTERNAL_FUNCTION_PARAMETERS, int return_type)
 
 	storage = cvCreateMemStorage(0);
 
-	faces = cvHaarDetectObjects(gray, cascade, storage, 1.1, 2, CV_HAAR_DO_CANNY_PRUNING, cvSize(0, 0));
+	faces = cvHaarDetectObjects(gray, cascade, storage, 1.1, 2, CV_HAAR_DO_CANNY_PRUNING, cvSize(0, 0), cvSize(0, 0));
 
 	if(return_type) {
 
