@@ -30,7 +30,7 @@
  *
  * Every user visible function must have an entry in facedetect_functions[].
  */
-static function_entry facedetect_functions[] = {
+static zend_function_entry facedetect_functions[] = {
     PHP_FE(face_detect, NULL)
     PHP_FE(face_count, NULL)
     {NULL, NULL, NULL}
