@@ -27,10 +27,17 @@ if test "$PHP_FACEDETECT" != "no"; then
   AC_CHECK_HEADER([$FACEDETECT_DIR/include/opencv/cv.h], [], AC_MSG_ERROR('opencv/cv.h' header not found))
   AC_CHECK_HEADER([$FACEDETECT_DIR/include/opencv/highgui.h], [], AC_MSG_ERROR('opencv/highgui.h' header not found))
 
-  PHP_CHECK_LIBRARY(opencv_objdetect, cvLoad,
+  PHP_CHECK_LIBRARY(opencv_core, cvLoad,
   [
-    PHP_ADD_LIBRARY_WITH_PATH(opencv_objdetect, $FACEDETECT_DIR/lib, FACEDETECT_SHARED_LIBADD)
-    AC_DEFINE(HAVE_FACEDETECT, 1, [ ])
+    PHP_ADD_LIBRARY_WITH_PATH(opencv_core, $FACEDETECT_DIR/lib, FACEDETECT_SHARED_LIBADD)
+    PHP_CHECK_LIBRARY(opencv_objdetect, cvHaarDetectObjects,
+    [
+      PHP_ADD_LIBRARY_WITH_PATH(opencv_objdetect, $FACEDETECT_DIR/lib, FACEDETECT_SHARED_LIBADD)
+      AC_DEFINE(HAVE_FACEDETECT, 1, [ ])
+    ],[
+      AC_MSG_ERROR([Wrong OpenCV version or OpenCV not found]) 
+      ],[
+    ]),
   ],[
     AC_MSG_ERROR([wrong OpenCV version or OpenCV not found])
   ],[
