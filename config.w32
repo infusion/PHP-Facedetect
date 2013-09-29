@@ -4,8 +4,11 @@
 ARG_WITH("facedetect", "for facedetect support", "no");
 
 if (PHP_FACEDETECT == "yes") {
-	if (CHECK_LIB("opencv_objdetect246.lib", "facedetect", PHP_FACEDETECT) &&
-			CHECK_HEADER_ADD_INCLUDE("opencv/cv.h", "CFLAGS_FFACEDETECT")) {
+	if (CHECK_LIB("opencv_objdetect*.lib", "facedetect", PHP_FACEDETECT) &&
+		CHECK_LIB("opencv_core*.lib", "facedetect", PHP_FACEDETECT) &&
+		CHECK_LIB("opencv_imgproc*.lib", "facedetect", PHP_FACEDETECT) &&
+		CHECK_LIB("opencv_highgui*.lib", "facedetect", PHP_FACEDETECT) &&
+		CHECK_HEADER_ADD_INCLUDE("opencv/cv.h", "CFLAGS_FFACEDETECT")) {
 
 		AC_DEFINE("HAVE_FACEDETECT", 1);
 
