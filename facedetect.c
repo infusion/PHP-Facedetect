@@ -21,6 +21,7 @@
 #include "config.h"
 #endif
 #include "php.h"
+#include "ext/standard/info.h"
 #include "php_facedetect.h"
 
 #include <opencv/cv.h>
