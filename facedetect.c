@@ -2,21 +2,18 @@
   +----------------------------------------------------------------------+
   | PHP Version 5                                                        |
   +----------------------------------------------------------------------+
-  | This source file is subject to version 3.0 of the PHP license,       |
+  | This source file is subject to BSD 3-Clause license,                 |
   | that is bundled with this package in the file LICENSE, and is        |
   | available through the world-wide-web at the following url:           |
-  | http://www.php.net/license/3_0.txt.                                  |
-  | If you did not receive a copy of the PHP license and are unable to   |
+  | http://opensource.org/licenses/BSD-3-Clause.                         |
+  | If you did not receive a copy of the BSD license and are unable to   |
   | obtain it through the world-wide-web, please send a note to          |
-  | license@php.net so we can mail you a copy immediately.               |
+  | robert@xarg.org so we can mail you a copy immediately.               |
   +----------------------------------------------------------------------+
   | Author: Robert Eisele <robert@xarg.org>                              |
   +----------------------------------------------------------------------+
 */
-//	http://www.santyago.pl/files/facedetect-1.0.1-opencv-2.2.0.patch
-//	- face recog lib embedden http://libface.sourceforge.net/file/Examples.html
-//	- http://www.cognotics.com/opencv/servo_2007_series/part_5/index.html
-//	- opencv 2.2 kompatibel
+
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
