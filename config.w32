@@ -8,7 +8,7 @@ if (PHP_FACEDETECT == "yes") {
 		CHECK_LIB("opencv_core*.lib", "facedetect", PHP_FACEDETECT) &&
 		CHECK_LIB("opencv_imgproc*.lib", "facedetect", PHP_FACEDETECT) &&
 		CHECK_LIB("opencv_highgui*.lib", "facedetect", PHP_FACEDETECT) &&
-		CHECK_HEADER_ADD_INCLUDE("opencv/cv.h", "CFLAGS_FFACEDETECT")) {
+		CHECK_HEADER_ADD_INCLUDE("opencv2/core/core_c.h", "CFLAGS_FFACEDETECT")) {
 
 		AC_DEFINE("HAVE_FACEDETECT", 1);
 
