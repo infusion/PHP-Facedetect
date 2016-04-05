@@ -82,7 +82,12 @@ static void php_facedetect(INTERNAL_FUNCTION_PARAMETERS, int return_type)
 	char *file, *casc;
 	long flen, clen;
 
+#ifdef ZEND_ENGINE_3
+	zval array;
+#else
 	zval *array;
+#endif
+	zval *pArray;
 
 	CvHaarClassifierCascade* cascade;
 	IplImage *img, *gray;
@@ -119,17 +124,23 @@ static void php_facedetect(INTERNAL_FUNCTION_PARAMETERS, int return_type)
 		if(faces && faces->total > 0) {
 			int i;
 			for(i = 0; i < faces->total; i++) {
+#ifdef ZEND_ENGINE_3
+				ZVAL_NEW_ARR(&array);
+				pArray = &array;
+#else
 				MAKE_STD_ZVAL(array);
-				array_init(array);
+				pArray = array;
+#endif
+				array_init(pArray);
 
 				rect = (CvRect *)cvGetSeqElem(faces, i);
 
-				add_assoc_long(array, "x", rect->x);
-				add_assoc_long(array, "y", rect->y);
-				add_assoc_long(array, "w", rect->width);
-				add_assoc_long(array, "h", rect->height);
+				add_assoc_long(pArray, "x", rect->x);
+				add_assoc_long(pArray, "y", rect->y);
+				add_assoc_long(pArray, "w", rect->width);
+				add_assoc_long(pArray, "h", rect->height);
 
-				add_next_index_zval(return_value, array);
+				add_next_index_zval(return_value, pArray);
 			}
 		}
 	} else {
