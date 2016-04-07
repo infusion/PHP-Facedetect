@@ -39,7 +39,7 @@ if test "$PHP_FACEDETECT" != "no"; then
     ],[
       AC_MSG_ERROR([Wrong OpenCV version or OpenCV not found]) 
       ],[
-    ]),
+    ])
   ],[
     AC_MSG_ERROR([wrong OpenCV version or OpenCV not found])
   ],[
