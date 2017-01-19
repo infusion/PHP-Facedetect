@@ -88,24 +88,24 @@ static void php_facedetect(INTERNAL_FUNCTION_PARAMETERS, int return_type)
 		RETURN_NULL();
 	}
 
-    if(access(file, R_OK) == -1) {
-        php_error_docref(NULL TSRMLS_CC, E_WARNING, "Image file is missing or could not be read.\n");
-        RETURN_FALSE;
-    }
-    
-    img = cvLoadImage(file, 1);
-    if(!img) {
-        php_error_docref(NULL TSRMLS_CC, E_WARNING, "Image could not be loaded.\n");
+	if(access(file, R_OK) == -1) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Image file is missing or could not be read.\n");
+		RETURN_FALSE;
+	}
+	
+	img = cvLoadImage(file, 1);
+	if(!img) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Image could not be loaded.\n");
 		RETURN_FALSE;
 	}
 
-    if(access(casc, R_OK) == -1) {
-        php_error_docref(NULL TSRMLS_CC, E_WARNING, "Haar-cascade file is missing or could not be read.\n");
-        RETURN_FALSE;
-    }
+	if(access(casc, R_OK) == -1) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Haar-cascade file is missing or could not be read.\n");
+		RETURN_FALSE;
+	}
 	cascade = (CvHaarClassifierCascade*)cvLoad(casc, 0, 0, 0);
 	if(!cascade) {
-        php_error_docref(NULL TSRMLS_CC, E_WARNING, "Haar-cascade file could not be loaded.\n");
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Haar-cascade file could not be loaded.\n");
 		RETURN_FALSE;
 	}
 
