@@ -11,12 +11,25 @@ if test "$PHP_FACEDETECT" != "no"; then
     if $PKG_CONFIG opencv --atleast-version=3.0.0 ; then
       AC_MSG_RESULT($CV_VERSION)
     else
-      AC_MSG_ERROR(opencv version is too old)
+      AC_MSG_ERROR(opencv version is too old.)
     fi
     PHP_EVAL_LIBLINE($CV_LIBRARY, FACEDETECT_SHARED_LIBADD)
     PHP_ADD_INCLUDE($CV_INCLUDE)
   else
-    AC_MSG_ERROR(Please reinstall opencv)
+    if test -x "$PKG_CONFIG" && $PKG_CONFIG --exists opencv4; then
+      CV_INCLUDE=`$PKG_CONFIG opencv4 --variable=includedir_new`
+      CV_LIBRARY=`$PKG_CONFIG opencv4 --libs`
+      CV_VERSION=`$PKG_CONFIG opencv4 --modversion`
+      if $PKG_CONFIG opencv4 --atleast-version=3.0.0 ; then
+        AC_MSG_RESULT($CV_VERSION)
+      else
+        AC_MSG_ERROR(opencv version is too old)
+      fi
+      PHP_EVAL_LIBLINE($CV_LIBRARY, FACEDETECT_SHARED_LIBADD)
+      PHP_ADD_INCLUDE($CV_INCLUDE)
+    else
+      AC_MSG_ERROR(Please reinstall opencv)
+    fi
   fi
 
   PHP_SUBST(FACEDETECT_SHARED_LIBADD)
