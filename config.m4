@@ -17,7 +17,7 @@ if test "$PHP_FACEDETECT" != "no"; then
     PHP_ADD_INCLUDE($CV_INCLUDE)
   else
     if test -x "$PKG_CONFIG" && $PKG_CONFIG --exists opencv4; then
-      CV_INCLUDE=`$PKG_CONFIG opencv4 --variable=includedir_new`
+      CV_INCLUDE=`$PKG_CONFIG opencv4 --variable=includedir`
       CV_LIBRARY=`$PKG_CONFIG opencv4 --libs`
       CV_VERSION=`$PKG_CONFIG opencv4 --modversion`
       if $PKG_CONFIG opencv4 --atleast-version=3.0.0 ; then
