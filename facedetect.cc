@@ -31,11 +31,12 @@ extern "C" {
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/objdetect/objdetect.hpp>
 
+/* for PHP 8 */
+#ifndef TSRMLS_CC
+#define TSRMLS_CC
+#endif
 
 using namespace cv;
-
-/* True global resources - no need for thread safety here */
-static int le_facedetect;
 
 CascadeClassifier cascade;
 
@@ -49,13 +50,18 @@ static void php_facedetect(INTERNAL_FUNCTION_PARAMETERS, int return_type) {
     zval *pArray;
 
     char *file = NULL, *casc = NULL;
+#if PHP_VERSION_ID < 70000
     long flen, clen;
+#else
+    size_t flen, clen;
+#endif
+
 
     Mat img;
     Mat gray;
     std::vector<Rect> faces;
 
-    if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s|s", &file, &flen, &casc, &clen) == FAILURE) {
+    if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "p|p", &file, &flen, &casc, &clen) == FAILURE) {
         RETURN_NULL();
     }
 
@@ -132,6 +138,27 @@ PHP_INI_ENTRY("facedetect.cascade", "", PHP_INI_ALL, on_cascade_change)
 PHP_INI_END()
 
 
+#if PHP_VERSION_ID < 80000
+ZEND_BEGIN_ARG_INFO_EX(arginfo_face_detect, 0, 0, 1)
+	ZEND_ARG_INFO(0, image_path)
+	ZEND_ARG_INFO(0, cascade_path)
+ZEND_END_ARG_INFO()
+
+#define arginfo_face_count arginfo_face_detect
+
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_face_detect, 0, 1, MAY_BE_FALSE|MAY_BE_ARRAY)
+	ZEND_ARG_TYPE_INFO(0, image_path, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, cascade_path, IS_STRING, 1, "null")
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_face_count, 0, 1, MAY_BE_FALSE|MAY_BE_LONG)
+	ZEND_ARG_TYPE_INFO(0, image_path, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, cascade_path, IS_STRING, 1, "null")
+ZEND_END_ARG_INFO()
+#endif
+
+
 PHP_FUNCTION(face_detect) {
     php_facedetect(INTERNAL_FUNCTION_PARAM_PASSTHRU, 1);
 }
@@ -172,8 +199,8 @@ PHP_MINFO_FUNCTION(facedetect) {
  * Every user visible function must have an entry in facedetect_functions[].
  */
 const zend_function_entry facedetect_functions[] = {
-    PHP_FE(face_detect, NULL)
-    PHP_FE(face_count, NULL)
+    PHP_FE(face_detect, arginfo_face_detect)
+    PHP_FE(face_count, arginfo_face_count)
     PHP_FE_END
 };
 /* }}} */
