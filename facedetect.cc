@@ -42,19 +42,16 @@ CascadeClassifier cascade;
 
 static void php_facedetect(INTERNAL_FUNCTION_PARAMETERS, int return_type) {
 
-#ifdef ZEND_ENGINE_3
-    zval array;
-#else
+#if PHP_VERSION_ID < 70000
+    int flen, clen;
     zval *array;
+#else
+    size_t flen, clen;
+    zval array;
 #endif
     zval *pArray;
 
     char *file = NULL, *casc = NULL;
-#if PHP_VERSION_ID < 70000
-    long flen, clen;
-#else
-    size_t flen, clen;
-#endif
 
 
     Mat img;
@@ -103,7 +100,7 @@ static void php_facedetect(INTERNAL_FUNCTION_PARAMETERS, int return_type) {
         array_init(return_value);
 
         for (size_t i = 0; i < faces.size(); i++) {
-#ifdef ZEND_ENGINE_3
+#if PHP_VERSION_ID >= 70000
             ZVAL_NEW_ARR(&array);
             pArray = &array;
 #else
@@ -127,7 +124,11 @@ static void php_facedetect(INTERNAL_FUNCTION_PARAMETERS, int return_type) {
 
 PHP_INI_MH(on_cascade_change) {
 
+#if PHP_VERSION_ID < 70000
+    if (new_value_length > 0 && cascade.load(new_value))
+#else
     if (ZSTR_LEN(new_value) > 0 && cascade.load(ZSTR_VAL(new_value)))
+#endif
         return SUCCESS;
     else
         return FAILURE;
