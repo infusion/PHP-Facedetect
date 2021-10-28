@@ -101,7 +101,7 @@ static void php_facedetect(INTERNAL_FUNCTION_PARAMETERS, int return_type) {
 
         for (size_t i = 0; i < faces.size(); i++) {
 #if PHP_VERSION_ID >= 70000
-            ZVAL_NEW_ARR(&array);
+            array_init(&array);
             pArray = &array;
 #else
             MAKE_STD_ZVAL(array);
